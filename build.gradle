@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'org.nus'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.5'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.1.4'
+    implementation 'io.cucumber:cucumber-testng:7.3.3'
+    implementation 'junit:junit:4.13.2'
+    implementation 'io.cucumber:cucumber-junit:7.3.3'
+    implementation 'io.github.bonigarcia:webdrivermanager:5.1.1'
+    testImplementation 'io.cucumber:cucumber-java:7.3.3'
+}
+
+test {
+    useTestNG()
+    scanForTestClasses = false
+}
