@@ -49,6 +49,6 @@ public class LoginSteps extends BaseSteps {
 
     @After
     public void close() {
-        this.loginPage.close();
+        this.driver.close();
     }
 }
