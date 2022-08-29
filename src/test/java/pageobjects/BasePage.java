@@ -9,6 +9,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
+import steps.BaseSteps;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,9 +21,8 @@ public class BasePage {
     protected WebDriver driver;
     private Properties config;
 
-    public BasePage() {}
-    public BasePage(WebDriver driver) {
-        this.driver = driver;
+    public BasePage() {
+        this.driver = BaseSteps.getDriver();
         this.config = Config.getConfig();
         PageFactory.initElements(this.driver, this);
     }
@@ -33,6 +33,7 @@ public class BasePage {
 
     public void open() {
         this.driver.get(getAbsolutePath(pageUrl));
+        this.driver.manage().window().maximize();
     }
 
     public Boolean isOnPage(String path) {

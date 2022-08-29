@@ -2,16 +2,10 @@ Feature: Login
   Background:
     Given user is on login page
 
+  @Login
   Scenario Outline: Proper login credential
     When user logins with "<email>" and "<password>" as credentials
-    Then user is on profiles page
+    Then user is on dashboard page
     Examples:
       | email             | password |
-      | susu9@yopmail.com | 123123   |
-
-  Scenario Outline: Wrong login credential
-    When user logins with "<email>" and "<password>" as credentials
-    Then user see error message
-    Examples:
-      | email             | password |
-      | susu9@yopmail.com | 111111   |
+      | kirk+uuser01@equanimity.sg | 123456789   |

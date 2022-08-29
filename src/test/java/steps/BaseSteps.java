@@ -12,36 +12,38 @@ import java.time.Duration;
 import java.util.Properties;
 
 public class BaseSteps {
-    private Properties config;
-    protected WebDriver driver;
+    protected static WebDriver driver;
 
-    protected WebDriver initializeDriver() {
+    public static WebDriver getDriver() {
+        if (driver == null) {
+            Properties config = Config.getConfig();
+            String browser = config.getProperty("app.browser");
 
-        this.config = Config.getConfig();
-
-        String browser = config.getProperty("app.browser");
-
-        switch (browser) {
-            case "chrome":
-                WebDriverManager.chromedriver().setup();
-                this.driver = new ChromeDriver();
-                break;
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                this.driver = new FirefoxDriver();
-                break;
-            case "safari":
-                WebDriverManager.safaridriver().setup();
-                this.driver = new SafariDriver();
-                break;
-            case "edge":
-                WebDriverManager.edgedriver().setup();
-                this.driver = new EdgeDriver();
-                break;
+            switch (browser) {
+                case "chrome":
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver();
+                    break;
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver();
+                    break;
+                case "safari":
+                    WebDriverManager.safaridriver().setup();
+                    driver = new SafariDriver();
+                    break;
+                case "edge":
+                    WebDriverManager.edgedriver().setup();
+                    driver = new EdgeDriver();
+                    break;
+            }
+            driver.manage().timeouts().implicitlyWait(Duration.ofMillis(Long.parseLong(config.getProperty("app.timeout"))));
         }
+        return driver;
+    }
 
-        this.driver.manage().timeouts().implicitlyWait(Duration.ofMillis(Long.parseLong(config.getProperty("app.timeout"))));
-
-        return this.driver;
+    public static void quit(){
+        driver.quit();
+        driver = null;
     }
 }

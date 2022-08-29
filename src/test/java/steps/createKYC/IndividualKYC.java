@@ -1,4 +1,4 @@
-package steps.login;
+package steps.createKYC;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -13,28 +13,29 @@ import pageobjects.DashboardPage;
 import steps.BaseSteps;
 
 @RunWith(Cucumber.class)
-public class LoginSteps extends BaseSteps {
+public class IndividualKYC extends BaseSteps{
     private LoginPage loginPage;
     DashboardPage dashboardPage;
 
-    @Before("@Login")
+    @Before("@CreateKYCIndividual")
     public void setup() {
         this.loginPage = new LoginPage();
         this.dashboardPage = new DashboardPage();
     }
 
-    @Given("user is on login page")
+    @Given("user logged in")
     public void openPage() {
         this.loginPage.open();
     }
 
-    @Given("user logins with {string} and {string} as credentials")
-    public void enterCredential(String email, String password) throws InterruptedException {
-        this.loginPage.login(email, password);
-        Thread.sleep(7000);
+    @Given("user create KYC with {string} and {string} and {string} and {string} and {string} and {string} as credentials")
+    public void enterCredential(String identificationNum, String dateOfBirth, String placeOfBirth, String residentialAddress, String city, String postalCode) throws InterruptedException {
+        this.loginPage.login("kirk+uuser01@equanimity.sg", "123456789");
+        Thread.sleep(5000);
+        this.dashboardPage.createKYCIndividual(identificationNum, dateOfBirth, placeOfBirth,residentialAddress, city,postalCode);
     }
 
-    @Then("user is on dashboard page")
+    @Then("direct user to dashboard page")
     public void isOnDashboardPage() {
         WebElement profileHeader = this.dashboardPage.getHeaderElement();
 

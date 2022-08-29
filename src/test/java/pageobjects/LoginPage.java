@@ -7,32 +7,25 @@ import org.openqa.selenium.support.How;
 
 public class LoginPage extends BasePage {
 
-    @FindBy(how = How.ID, using = "user-email-login")
+    @FindBy(how = How.CSS, using = "input[type='email']")
     private WebElement emailField;
 
-    @FindBy(how = How.ID, using = "user-password-login")
+    @FindBy(how = How.CSS, using = "input[type='password']")
     private WebElement passwordField;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\"prepare-signin-form\"]/div[1]/button")
-    private WebElement loginButton;
+    @FindBy(how = How.CSS, using = "button[type='button'].button.entry__button")
+    private WebElement signInBtn;
 
-    @FindBy(how = How.CSS, using = ".alert-danger p")
-    private WebElement alertContent;
+    private static final String PAGE_URL = "/login";
 
-    private static final String PAGE_URL = "/users/sign_in";
-
-    public LoginPage(WebDriver webDriver) {
-        super(webDriver);
+    public LoginPage() {
+        super();
         this.pageUrl = PAGE_URL;
-    }
-
-    public WebElement getErrorAlert() {
-        return alertContent;
     }
 
     public void login(String email, String password) {
         this.emailField.sendKeys(email);
         this.passwordField.sendKeys(password);
-        this.loginButton.click();
+        this.signInBtn.click();
     }
 }
