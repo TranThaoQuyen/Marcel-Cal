@@ -36,9 +36,9 @@ public class IndividualKYC extends BaseSteps{
     }
 
     @Then("show submission header")
-    public void isOnDashboardPage() {
-        WebElement profileHeader = this.dashboardPage.getHeaderElement();
+    public void isShowIdentityHeader() {
+        WebElement identityHeader = this.dashboardPage.getIdentityHeaderHeader();
 
-        Assert.assertEquals(profileHeader.getText(),"Thank you for your Submission");
+        Assert.assertEquals(identityHeader.getText(),"Please verify your identity.");
     }
 }

@@ -68,6 +68,9 @@ public class DashboardPage extends BasePage {
     @FindBy(how = How.CSS, using = "button[type='button'].button")
     private WebElement submitBtn;
 
+    @FindBy(how = How.CSS, using = ".onfido-sdk-ui-PageTitle-titleSpan")
+    private WebElement identityHeader;
+
     @FindBy(how = How.CSS, using = ".h3.entry__title")
     private WebElement submissionHeader;
 
@@ -79,7 +82,15 @@ public class DashboardPage extends BasePage {
     }
 
     public WebElement getHeaderElement() {
+        return this.pageHeader;
+    }
+
+    public WebElement getSubmissionHeader() {
         return this.submissionHeader;
+    }
+
+    public WebElement getIdentityHeaderHeader() {
+        return this.identityHeader;
     }
 
     public void createKYCIndividual(String identificationNum, String dateOfBirth, String placeOfBirth, String residentialAddress, String city, String postalCode ) throws InterruptedException {
@@ -90,18 +101,19 @@ public class DashboardPage extends BasePage {
                 .until(ExpectedConditions.visibilityOf(this.signUpKYCIndividual));
         this.signUpKYCIndividual.click();
         this.radioBtnUSD.click();
+        Thread.sleep(2000);
         this.nextBtn.click();
         new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
                 .until(ExpectedConditions.visibilityOf(this.identificationNum));
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         this.identificationNum.sendKeys(identificationNum);
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         this.dateOfBirth.sendKeys(dateOfBirth);
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         this.placeOfBirth.sendKeys(placeOfBirth);
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         this.nationality.click();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         List<WebElement> listOfNationality = driver.findElements(By.xpath(".//*[@role='listbox']/li"));
         for (WebElement webElement: listOfNationality) {
             if (webElement.getText().trim().equals("Afghanistan")){
@@ -109,9 +121,9 @@ public class DashboardPage extends BasePage {
                 break;
             }
         }
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         this.countryOfResidential.click();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         List<WebElement> listOfCountry = driver.findElements(By.xpath(".//*[@role='listbox']/li"));
         for (WebElement webElement: listOfCountry) {
             if (webElement.getText().trim().equals("Afghanistan")){
@@ -119,15 +131,16 @@ public class DashboardPage extends BasePage {
                 break;
             }
         }
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         this.residentialAddress.sendKeys(residentialAddress);
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         this.city.sendKeys(city);
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         this.postalCode.sendKeys(postalCode);
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
                 .until(ExpectedConditions.elementToBeClickable(this.submitBtn));
         this.submitBtn.click();
+        Thread.sleep(4000);
     }
 }

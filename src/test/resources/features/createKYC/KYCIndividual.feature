@@ -8,4 +8,4 @@ Feature: Create KYC Individual
     Then show submission header
     Examples:
       | identificationNum | dateOfBirth | placeOfBirth  | residentialAddress |city         | postalCode |
-      | 123456789         | 12.05.1995  |data test      | data test          | data test   | 7000    |
+      | 123456789         | 01.01.1991  |data test      | data test          | data test   | 7000    |
