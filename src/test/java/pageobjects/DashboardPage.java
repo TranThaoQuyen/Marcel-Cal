@@ -107,13 +107,13 @@ public class DashboardPage extends BasePage {
     @FindBy(how = How.CSS, using = ".settings__button.settings__buttons.d__flex.flex__row.flex__wrap.flex__justify_between button.button")
     private WebElement nextBtnKYB;
 
-    @FindBy(how = How.CSS, using = ".settings__list div:first-child .settings__fieldset label.switch input[type='checkbox']")
+    @FindBy(how = How.CSS, using = ".settings__list div:first-child .settings__fieldset label.switch .switch__inner .switch__box")
     private WebElement authorizedSwitchBtn;
 
-    @FindBy(how = How.CSS, using = ".settings__list div:nth-of-type(2) div:nth-of-type(2) label.switch input[type='checkbox']")
+    @FindBy(how = How.CSS, using = ".settings__list div:nth-of-type(2) div:nth-of-type(2) label.switch .switch__inner .switch__box")
     private WebElement beneficialOwnershipSwitchBtn;
 
-    @FindBy(how = How.CSS, using = ".settings__button.settings__buttons.d__flex.flex__row.flex__wrap.flex__justify_between button.button']")
+    @FindBy(how = How.CSS, using = ".settings__button.settings__buttons.d__flex.flex__row.flex__wrap.flex__justify_between button.button")
     private WebElement submitToVerifyBtn;
 
     @FindBy(how = How.CSS, using = ".title-primary.settings__title")
@@ -132,6 +132,8 @@ public class DashboardPage extends BasePage {
     }
 
     public WebElement getSubmissionHeader() {
+        new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
+                .until(ExpectedConditions.textToBePresentInElement(this.submissionHeader,"Thank you for your Submission"));
         return this.submissionHeader;
     }
 
@@ -220,17 +222,18 @@ public class DashboardPage extends BasePage {
             }
         }
         this.companyPostalCode.sendKeys(companyPostalCode);
-
-        this.uploadBtn.sendKeys(System.getProperty("user.dir") + "src/test/resources/testdatafile/dummy.pdf");
+        this.uploadBtn.sendKeys(System.getProperty("user.dir") + "\\src\\test\\resources\\testdatafile\\dummy.pdf");
         this.radioBtnUSD.click();
         this.nextBtnKYB.click();
         new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
                 .until(ExpectedConditions.visibilityOf(this.authorizedScreen));
         this.nextBtnKYB.click();
-        new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
-                .until(ExpectedConditions.visibilityOf(this.authorizedSwitchBtn));
         this.authorizedSwitchBtn.click();
+        Thread.sleep(2000);
         this.beneficialOwnershipSwitchBtn.click();
+        Thread.sleep(2000);
+        new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
+                .until(ExpectedConditions.elementToBeClickable(this.submitToVerifyBtn));
         this.submitToVerifyBtn.click();
     }
 }
