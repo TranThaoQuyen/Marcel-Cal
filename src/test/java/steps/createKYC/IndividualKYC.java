@@ -31,19 +31,14 @@ public class IndividualKYC extends BaseSteps{
     @Given("user create KYC with {string} and {string} and {string} and {string} and {string} and {string} as credentials")
     public void enterCredential(String identificationNum, String dateOfBirth, String placeOfBirth, String residentialAddress, String city, String postalCode) throws InterruptedException {
         this.loginPage.login("kirk+uuser01@equanimity.sg", "123456789");
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         this.dashboardPage.createKYCIndividual(identificationNum, dateOfBirth, placeOfBirth,residentialAddress, city,postalCode);
     }
 
-    @Then("direct user to dashboard page")
+    @Then("show submission header")
     public void isOnDashboardPage() {
         WebElement profileHeader = this.dashboardPage.getHeaderElement();
 
-        Assert.assertTrue(profileHeader.isDisplayed());
-    }
-
-    @After
-    public void close() {
-        this.driver.close();
+        Assert.assertEquals(profileHeader.getText(),"Thank you for your Submission");
     }
 }
