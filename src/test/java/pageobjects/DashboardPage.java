@@ -74,6 +74,52 @@ public class DashboardPage extends BasePage {
     @FindBy(how = How.CSS, using = ".h3.entry__title")
     private WebElement submissionHeader;
 
+    @FindBy(how = How.CSS, using = ".settings__list .settings__item .settings__fieldset div:first-child div:nth-of-type(2) div:nth-of-type(2) input[type='text'].field__input")
+    private WebElement companyName;
+
+    @FindBy(how = How.CSS, using = ".settings__list .settings__item .settings__fieldset div:nth-of-type(2) div:first-child input[type='text'].field__input")
+    private WebElement registerNumber;
+
+    @FindBy(how = How.CSS, using = ".MuiSelect-root.MuiSelect-select.MuiSelect-selectMenu.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input")
+    private WebElement legalForm;
+
+    @FindBy(how = How.CSS, using = ".settings__list .settings__item .settings__fieldset div:nth-of-type(3) div:nth-of-type(3) input[type='text'].field__input")
+    private WebElement placeOfCommercialRegister;
+
+    @FindBy(how = How.CSS, using = ".settings__list .settings__item .settings__fieldset div:nth-of-type(3) div:nth-of-type(4) input[type='text'].field__input")
+    private WebElement companyShareCapital;
+
+    @FindBy(how = How.CSS, using = ".settings__list .settings__item .settings__fieldset div:nth-of-type(3) div:nth-of-type(5) input[type='text'].field__input")
+    private WebElement companyPlace;
+
+    @FindBy(how = How.CSS, using = ".settings__list .settings__item .settings__fieldset div:nth-of-type(3) div:nth-of-type(6) input[type='text'].field__input")
+    private WebElement companyAddress;
+
+    @FindBy(how = How.CSS, using = ".settings__list .settings__item .settings__fieldset div:nth-of-type(3) div:nth-of-type(7) .MuiSelect-root.MuiSelect-select.MuiSelect-selectMenu.MuiInputBase-input.MuiInput-input")
+    private WebElement companyCountry;
+
+    @FindBy(how = How.CSS, using = ".settings__list .settings__item .settings__fieldset div:nth-of-type(3) div:nth-of-type(8) input[type='text'].field__input")
+    private WebElement companyPostalCode;
+
+    @FindBy(how = How.CSS, using = "div.file__wrap.flex__column input")
+    private WebElement uploadBtn;
+
+    @FindBy(how = How.CSS, using = ".settings__button.settings__buttons.d__flex.flex__row.flex__wrap.flex__justify_between button.button")
+    private WebElement nextBtnKYB;
+
+    @FindBy(how = How.CSS, using = ".settings__list div:first-child .settings__fieldset label.switch input[type='checkbox']")
+    private WebElement authorizedSwitchBtn;
+
+    @FindBy(how = How.CSS, using = ".settings__list div:nth-of-type(2) div:nth-of-type(2) label.switch input[type='checkbox']")
+    private WebElement beneficialOwnershipSwitchBtn;
+
+    @FindBy(how = How.CSS, using = ".settings__button.settings__buttons.d__flex.flex__row.flex__wrap.flex__justify_between button.button']")
+    private WebElement submitToVerifyBtn;
+
+    @FindBy(how = How.CSS, using = ".title-primary.settings__title")
+    private WebElement authorizedScreen;
+
+
     private static final String PAGE_URL = "";
 
     public DashboardPage() {
@@ -142,5 +188,49 @@ public class DashboardPage extends BasePage {
                 .until(ExpectedConditions.elementToBeClickable(this.submitBtn));
         this.submitBtn.click();
         Thread.sleep(4000);
+    }
+
+    public void createKYB(String companyName, String registerNumber, String placeOfCommercialRegister, String companyShareCapital, String companyPlace, String companyAddress, String companyPostalCode ) throws InterruptedException {
+        new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
+                .until(ExpectedConditions.visibilityOf(this.pageHeader));
+        driver.get("https://dev-kyc.cryptoadvisory.li/application");
+        new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
+                .until(ExpectedConditions.visibilityOf(this.signUpKYCCompany));
+        this.signUpKYCCompany.click();
+        this.companyName.sendKeys(companyName);
+        this.registerNumber.sendKeys(registerNumber);
+        this.legalForm.click();
+        List<WebElement> listOfLegal = driver.findElements(By.xpath(".//*[@role='listbox']/li"));
+        for (WebElement webElement: listOfLegal) {
+            if (webElement.getText().trim().equals("Limited Liability Company (ex. GmbH)")){
+                webElement.click();
+                break;
+            }
+        }
+        this.placeOfCommercialRegister.sendKeys(placeOfCommercialRegister);
+        this.companyShareCapital.sendKeys(companyShareCapital);
+        this.companyPlace.sendKeys(companyPlace);
+        this.companyAddress.sendKeys(companyAddress);
+        this.companyCountry.click();
+        List<WebElement> listOfCountry = driver.findElements(By.xpath(".//*[@role='listbox']/li"));
+        for (WebElement webElement: listOfCountry) {
+            if (webElement.getText().trim().equals("India")){
+                webElement.click();
+                break;
+            }
+        }
+        this.companyPostalCode.sendKeys(companyPostalCode);
+
+        this.uploadBtn.sendKeys(System.getProperty("user.dir") + "src/test/resources/testdatafile/dummy.pdf");
+        this.radioBtnUSD.click();
+        this.nextBtnKYB.click();
+        new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
+                .until(ExpectedConditions.visibilityOf(this.authorizedScreen));
+        this.nextBtnKYB.click();
+        new WebDriverWait(this.driver, Duration.ofMillis(Long.parseLong(Config.getConfig().getProperty("app.timeout"))))
+                .until(ExpectedConditions.visibilityOf(this.authorizedSwitchBtn));
+        this.authorizedSwitchBtn.click();
+        this.beneficialOwnershipSwitchBtn.click();
+        this.submitToVerifyBtn.click();
     }
 }
